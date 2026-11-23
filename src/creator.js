@@ -58,7 +58,7 @@ export class Creator {
     this.unlocked = unlocked;
     this.look = sanitizeLook(look || randomLook());
     
-    this.name = name || '';
+    this.name = name || window.__defaultName || '';
     this.char.setLook(this.look);
     this.panel.classList.remove('hidden');
     this.renderPanel();
@@ -125,7 +125,7 @@ export class Creator {
   }
 
   done() {
-    const name = (this.name || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 16) || `Dev${Math.floor(1000 + Math.random() * 9000)}`;
+    const name = (this.name || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 16) || window.__defaultName || "Player";
     sfx.unlock();
     sfx.click();
     this.onDone(this.look, name, this.mode);

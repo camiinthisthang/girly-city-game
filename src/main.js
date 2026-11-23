@@ -1,3 +1,4 @@
+window.__defaultName = 'Main Character';
 import './style.css';
 import '@fontsource/anton/400.css';
 import '@fontsource/inter/400.css';
