@@ -1,0 +1,23 @@
+{
+  "name": "girly-city-game",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/bowlby-one": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "three": "^0.187.0"
+  },
+  "devDependencies": {
+    "vite": "^6.4.6"
+  },
+  "type": "module",
+  "private": true
+}
