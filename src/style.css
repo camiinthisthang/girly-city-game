@@ -312,3 +312,6 @@ body.photo #hud > *:not(.photo-ui) { display: none !important; }
 @media (pointer: coarse) { .objective { font-size: 14px; top: 10px; bottom: auto; } .setup h1 { font-size: 44px; } }
 
 #h-online, #h-chat, #t-chat, #c-neon { display: none !important; }
+@media (max-height: 500px) { .endcard { padding: 10px; } .endcard h1 { font-size: 15vh; margin: 4px 0; } .endcard .end-msg, .endcard .end-cta, .endcard p { margin: 4px 0; font-size: 13px; } .endcard .end-name { font-size: 20px; } }
+@media (pointer: coarse) and (orientation: landscape) { #creator .rows { flex: 0 0 auto; overflow: visible; } #creator .c-head { padding-bottom: 0; } #creator .c-kicker { margin-bottom: 6px; } }
+.setup input, .setup textarea { min-width: 0; width: 100%; box-sizing: border-box; }
