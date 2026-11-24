@@ -3,13 +3,13 @@ import * as THREE from 'three';
 const M = (color, o = {}) => new THREE.MeshStandardMaterial({ color, ...o });
 export const WATER_Y = -0.7;
 export const CAR_TYPES = [
-  { name: 'Pink Convertible', color: '#ff8fc8' },
-  { name: 'Barbie GT', color: '#ff4fa3' },
+  { name: 'Pink Convertible', color: '#f6bccb' },
+  { name: 'Barbie GT', color: '#f19bb0' },
   { name: 'Peach Sorbet', color: '#ffb38a' },
   { name: 'Pearl', color: '#fff4fa' },
-  { name: 'Lavender Haze', color: '#c9a7ff' },
+  { name: 'Lavender Haze', color: '#d9c9ee' },
 ];
-export const SKI_COLORS = ['#34D59A', '#ff2d8a', '#29d3ff', '#ffd23f'];
+export const SKI_COLORS = ['#a9d3b9', '#ff2d8a', '#a7d3ea', '#ffd98a'];
 
 function shapeOf(points) {
   const s = new THREE.Shape();
@@ -84,7 +84,7 @@ export function makeCar(color) {
   const rimG = new THREE.CylinderGeometry(0.27, 0.27, 0.35, 16).rotateZ(Math.PI / 2);
   const spokeG = new THREE.BoxGeometry(0.36, 0.05, 0.05);
   const tireM = M('#121212', { roughness: 0.85 }), rimM = M('#1c1d21', { metalness: 1, roughness: 0.2 }), spokeM = M('#d9dce2', { metalness: 1, roughness: 0.15 });
-  const caliper = M(color === '#f2f2f2' ? '#ff2d8a' : '#ffd23f', { roughness: 0.4 });
+  const caliper = M(color === '#f2f2f2' ? '#ff2d8a' : '#ffd98a', { roughness: 0.4 });
   const wheels = [];
   for (const [x, z] of [[-0.95, 1.5], [0.95, 1.5], [-0.95, -1.45], [0.95, -1.45]]) {
     const pivot = new THREE.Group();
@@ -137,7 +137,7 @@ export function makeSki(color) {
 function rampMesh(scene, cx, cz, dir, run, rise, width) {
   const grp = new THREE.Group();
   const a = Math.atan2(rise, run), L = Math.hypot(run, rise);
-  const top = new THREE.Mesh(new THREE.BoxGeometry(width, 0.16, L), M('#ff7a1a', { roughness: 0.5, emissive: '#ff4f00', emissiveIntensity: 0.15 }));
+  const top = new THREE.Mesh(new THREE.BoxGeometry(width, 0.16, L), M('#ffbf9b', { roughness: 0.5, emissive: '#ff4f00', emissiveIntensity: 0.15 }));
   top.rotation.x = -a;
   top.position.y = rise / 2;
   top.castShadow = top.receiveShadow = true;

@@ -8,14 +8,14 @@ export const OPTIONS = {
   body: [['m', 'Marco'], ['f', 'Sofia'], ['m2', 'Dre'], ['m3', 'Kenji'], ['m4', 'Vic'], ['f2', 'Nia'], ['f3', 'Mei']],
   skin: ['#ffe0cc', '#f5c9a6', '#e0ac69', '#c68642', '#8d5524', '#5a3418'],
   hairStyle: [['short', 'Short'], ['long', 'Long waves'], ['bun', 'Top bun'], ['curly', 'Curls'], ['mohawk', 'Mohawk'], ['buzz', 'Buzz'], ['bald', 'Bald']],
-  hairColor: ['#f4e7c5', '#e8c07a', '#b5651d', '#5a3825', '#1b1b1b', '#ff4fa3', '#34D59A', '#7b5cff', '#d9d9d9'],
+  hairColor: ['#f4e7c5', '#e8c07a', '#b5651d', '#5a3825', '#1b1b1b', '#f19bb0', '#a9d3b9', '#cdb9e6', '#d9d9d9'],
   top: [['hawaiian', 'Hawaiian shirt'], ['blazer', 'Pastel blazer'], ['track', 'Track jacket'], ['tee', 'Plain tee'], ['tank', 'Tank top']],
-  topColor: ['#ff4fa3', '#29d3ff', '#ffd23f', '#ffffff', '#1b1b1b', '#7b5cff', '#ff7a3d', '#9be7c4'],
+  topColor: ['#f19bb0', '#a7d3ea', '#ffd98a', '#ffffff', '#1b1b1b', '#cdb9e6', '#ff7a3d', '#9be7c4'],
   bottom: [['jeans', 'Jeans'], ['shorts', 'Board shorts'], ['cargo', 'Cargo pants'], ['track', 'Track pants'], ['linen', 'Linen pants']],
-  bottomColor: ['#2f4a7a', '#1b1b1b', '#e9dcc3', '#6b7a3a', '#ff4fa3', '#29d3ff', '#ffffff'],
-  shoes: ['#ffffff', '#1b1b1b', '#34D59A', '#ff4fa3', '#ffd23f', '#29d3ff'],
+  bottomColor: ['#2f4a7a', '#1b1b1b', '#e9dcc3', '#6b7a3a', '#f19bb0', '#a7d3ea', '#ffffff'],
+  shoes: ['#ffffff', '#1b1b1b', '#a9d3b9', '#f19bb0', '#ffd98a', '#a7d3ea'],
   hat: [['none', 'None'], ['bucket', 'Bucket hat']],
-  accent: ['#1b1b1b', '#ffffff', '#ff4fa3', '#29d3ff', '#ffd23f', '#7b5cff'],
+  accent: ['#1b1b1b', '#ffffff', '#f19bb0', '#a7d3ea', '#ffd98a', '#cdb9e6'],
   glasses: [['none', 'None'], ['shades', 'Shades'], ['aviators', 'Aviators']],
   chain: [['none', 'None']],
   bag: [['none', 'None']],
@@ -23,7 +23,7 @@ export const OPTIONS = {
 
 export const DEFAULT_LOOK = {
   body: 'm', outfit: 'signature',
-  skin: '#f5c9a6', hairStyle: 'short', hairColor: '#5a3825', top: 'hawaiian', topColor: '#ff4fa3',
+  skin: '#f5c9a6', hairStyle: 'short', hairColor: '#5a3825', top: 'hawaiian', topColor: '#f19bb0',
   bottom: 'jeans', bottomColor: '#2f4a7a', shoes: '#ffffff', hat: 'none', accent: '#1b1b1b',
   glasses: 'none', chain: 'none', bag: 'none', tattoo: false, piercing: false,
 };
@@ -546,7 +546,7 @@ function badgeTex() {
   return canvasTexture('badge', 128, 170, (ctx, w, h) => {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = '#ff4fa3';
+    ctx.fillStyle = '#f19bb0';
     ctx.fillRect(0, 0, w, 50);
     ctx.fillStyle = '#fff';
     ctx.font = '30px Anton, sans-serif';

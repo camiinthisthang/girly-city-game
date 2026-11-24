@@ -15,7 +15,7 @@ export class Creator {
     this.panel = panel;
     this.onDone = onDone;
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color('#2a1640');
+    this.scene.background = new THREE.Color('#f4d9d6');
     this.camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
     this.camera.position.set(0, 1.15, 5.6);
     this.camera.lookAt(0, 1.0, 0);
@@ -154,7 +154,7 @@ export class Creator {
 function decoFloor() {
   const t = canvasTexture('deco-floor', 512, 512, (ctx, w, h) => {
     const n = 8, s = w / n;
-    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { ctx.fillStyle = (i + j) % 2 ? '#f6d7c3' : '#3fc8b4'; ctx.fillRect(i * s, j * s, s, s); }
+    for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) { ctx.fillStyle = (i + j) % 2 ? '#fbeee4' : '#bfdcc8'; ctx.fillRect(i * s, j * s, s, s); }
   });
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
   t.repeat.set(5, 2.5);
@@ -165,31 +165,31 @@ function miamiBackdrop() {
   return canvasTexture('miami-backdrop', 2048, 1024, (ctx, w, h) => {
     const hz = h * 0.66;
     const sky = ctx.createLinearGradient(0, 0, 0, hz);
-    sky.addColorStop(0, '#2b1055'); sky.addColorStop(0.45, '#d6336c'); sky.addColorStop(0.8, '#ff8a3d'); sky.addColorStop(1, '#ffd36e');
+    sky.addColorStop(0, '#c9b7e3'); sky.addColorStop(0.45, '#f4b9c6'); sky.addColorStop(0.8, '#ffc9a3'); sky.addColorStop(1, '#ffe3b0');
     ctx.fillStyle = sky; ctx.fillRect(0, 0, w, hz);
     const cx = w / 2, cy = hz - 40, R = 230;
     const sun = ctx.createLinearGradient(0, cy - R, 0, cy + R);
-    sun.addColorStop(0, '#fff3a0'); sun.addColorStop(1, '#ff3d7f');
+    sun.addColorStop(0, '#fff6d6'); sun.addColorStop(1, '#f7a7a0');
     ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.clip();
     ctx.fillStyle = sun; ctx.fillRect(cx - R, cy - R, R * 2, R * 2);
     ctx.fillStyle = 'rgba(214,51,108,0.95)';
     for (let i = 0; i < 7; i++) { const y = cy + 10 + i * 30; ctx.fillRect(cx - R, y, R * 2, 4 + i * 2.2); }
     ctx.restore();
     const sea = ctx.createLinearGradient(0, hz, 0, h);
-    sea.addColorStop(0, '#1d6f9a'); sea.addColorStop(1, '#0b2a4a');
+    sea.addColorStop(0, '#9fd0e3'); sea.addColorStop(1, '#5f9fc0');
     ctx.fillStyle = sea; ctx.fillRect(0, hz, w, h - hz);
     ctx.fillStyle = 'rgba(255,200,120,0.5)';
     for (let i = 0; i < 26; i++) { const y = hz + 8 + i * 13, ww = 300 - i * 9; ctx.fillRect(cx - ww / 2 + Math.sin(i * 1.7) * 30, y, ww, 3); }
-    ctx.fillStyle = '#1b0b2e';
+    ctx.fillStyle = '#7a5a60';
     const towers = [[60, 260], [170, 200], [260, 330], [370, 240], [1560, 280], [1660, 220], [1760, 350], [1880, 250], [1960, 300]];
     for (const [x, th] of towers) ctx.fillRect(x, hz - th, 90, th);
     ctx.fillStyle = 'rgba(255,214,110,0.55)';
     for (const [x, th] of towers) for (let y = hz - th + 16; y < hz - 10; y += 22) for (let k = 0; k < 3; k++) if ((x + y + k) % 3) ctx.fillRect(x + 12 + k * 26, y, 12, 8);
     const palm = (bx, by, H, lean, k) => {
-      ctx.strokeStyle = '#120720'; ctx.lineWidth = 22 * k; ctx.lineCap = 'round';
+      ctx.strokeStyle = '#6b4b52'; ctx.lineWidth = 22 * k; ctx.lineCap = 'round';
       ctx.beginPath(); ctx.moveTo(bx, by); ctx.quadraticCurveTo(bx + lean * 0.2, by - H * 0.55, bx + lean, by - H); ctx.stroke();
       const tx = bx + lean, ty = by - H;
-      ctx.fillStyle = '#120720';
+      ctx.fillStyle = '#6b4b52';
       for (let i = 0; i < 10; i++) {
         const a = -Math.PI * 0.95 + (i / 9) * Math.PI * 0.9 + (i % 2 ? 0.12 : -0.08), L = (230 + (i % 3) * 50) * k;
         const ex = tx + Math.cos(a) * L, ey = ty + Math.sin(a) * L * 0.45 + L * 0.42;
@@ -199,7 +199,7 @@ function miamiBackdrop() {
     palm(330, h, 820, 120, 1); palm(560, h, 600, -60, 0.75); palm(1720, h, 860, -140, 1.05); palm(1500, h, 560, 70, 0.7);
     ctx.font = '700 150px "Brush Script MT", "Pacifico", cursive';
     ctx.textAlign = 'center';
-    ctx.shadowColor = '#ff4fa3'; ctx.shadowBlur = 40; ctx.fillStyle = '#ffe1f0';
+    ctx.shadowColor = '#f19bb0'; ctx.shadowBlur = 40; ctx.fillStyle = '#ffe1f0';
     ctx.fillText('Miami', cx, 190);
     ctx.shadowBlur = 0;
   });

@@ -16,12 +16,12 @@ export function createRaces(scene, hud, { onFinish }) {
   };
   const baseY = (R) => (R.kind === 'ski' ? WATER_Y : 0);
   const starts = Object.entries(RACES).map(([id, R]) => {
-    const m = mk(R.kind === 'car' ? '#29d3ff' : '#ff4fa3', 5, 8, 0.3);
+    const m = mk(R.kind === 'car' ? '#a7d3ea' : '#f19bb0', 5, 8, 0.3);
     m.position.set(R.start[0], baseY(R) + 4, R.start[1]);
     return { id, R, m };
   });
-  const cp = mk('#ffd23f', 8, 12, 0.45);
-  const next = mk('#ffd23f', 8, 12, 0.12);
+  const cp = mk('#ffd98a', 8, 12, 0.45);
+  const next = mk('#ffd98a', 8, 12, 0.12);
   cp.visible = next.visible = false;
   let cur = null, cooldown = 0;
 
@@ -44,7 +44,7 @@ export function createRaces(scene, hud, { onFinish }) {
         if (s.R.kind !== vehicle.kind) continue;
         if (Math.hypot(pos.x - s.R.start[0], pos.z - s.R.start[1]) < 5.5) {
           cur = { id: s.id, R: s.R, i: 0, t0: t };
-          hud.banner('GO!', s.R.name, '#29d3ff', 1800);
+          hud.banner('GO!', s.R.name, '#a7d3ea', 1800);
           show();
           break;
         }
@@ -68,8 +68,8 @@ export function createRaces(scene, hud, { onFinish }) {
   }
 
   function blips() {
-    if (cur) return [{ x: cur.R.cps[cur.i][0], z: cur.R.cps[cur.i][1], color: '#ffd23f', shape: 'diamond', edge: true }];
-    return starts.map((s) => ({ x: s.R.start[0], z: s.R.start[1], color: s.R.kind === 'car' ? '#29d3ff' : '#ff4fa3', label: s.R.kind === 'car' ? 'S' : 'J', edge: false }));
+    if (cur) return [{ x: cur.R.cps[cur.i][0], z: cur.R.cps[cur.i][1], color: '#ffd98a', shape: 'diamond', edge: true }];
+    return starts.map((s) => ({ x: s.R.start[0], z: s.R.start[1], color: s.R.kind === 'car' ? '#a7d3ea' : '#f19bb0', label: s.R.kind === 'car' ? 'S' : 'J', edge: false }));
   }
 
   return { update, blips, get active() { return cur; } };

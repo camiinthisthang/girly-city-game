@@ -225,7 +225,7 @@ export function buildWorld(scene, renderer) {
   }
 
   // cars
-  const carColors = ['#ff4fa3', '#29d3ff', '#ffffff', '#ffd23f', '#1b1b1b', '#7b5cff', '#ff7a3d', '#9be7c4'];
+  const carColors = ['#f19bb0', '#a7d3ea', '#ffffff', '#ffd98a', '#1b1b1b', '#cdb9e6', '#ff7a3d', '#9be7c4'];
   const makeCar = (color) => {
     const g = new THREE.Group();
     const body = new THREE.Mesh(new THREE.BoxGeometry(2, 0.7, 4.4), mat(color, { metalness: 0.7, roughness: 0.18, envMapIntensity: 1.5 }));
@@ -384,7 +384,7 @@ export function buildWorld(scene, renderer) {
     const solidBox = (w, h, d, m, x, y, z) => { const b = box(w, h, d, m, x, y, z); addSolid(x - w / 2, x + w / 2, z - d / 2, z + d / 2, -1, y + h); return b; };
     const darkWall = mat('#1f2229', { roughness: 0.85 });
     hall(X0, X1, Z0, Z1, H, { wall: darkWall, glass: { x1: glassM }, label: 'Startup HQ', doors: [{ edge: 'x1', c: -63, w: 5, h: 3.8 }] });
-    building(X0, X1, Z0, Z1, 52, '#e4e6ea', '#24364d', 1, '#ff4fa3', H + 0.4);
+    building(X0, X1, Z0, Z1, 52, '#e4e6ea', '#24364d', 1, '#f19bb0', H + 0.4);
     const wallX = (z, xa, xb, m, gaps = []) => {
       const seg = (s, e) => { if (e - s < 0.05) return; box(e - s, H, T, m, (s + e) / 2, 0, z); addSolid(s, e, z - T / 2, z + T / 2, -1, H); };
       let a = xa;
@@ -401,7 +401,7 @@ export function buildWorld(scene, renderer) {
     const woodPanel = new THREE.MeshStandardMaterial({ roughness: 0.7, map: cv('hq-wood', 256, 256, (c, w, h) => { c.fillStyle = '#6b4325'; c.fillRect(0, 0, w, h); for (let x = 0; x < w; x += 32) { c.fillStyle = x % 64 ? '#5a361d' : '#7a4e2c'; c.fillRect(x, 0, 30, h); c.fillStyle = '#3a2311'; c.fillRect(x + 30, 0, 2, h); } }, true) });
     woodPanel.map.repeat.set(4, 1);
     const whitePanel = mat('#f3f6f9', { roughness: 0.25, metalness: 0.1 });
-    const futureGlass = new THREE.MeshStandardMaterial({ color: '#bfefff', transparent: true, opacity: 0.22, roughness: 0.05, metalness: 0.6, emissive: '#29d3ff', emissiveIntensity: 0.15 });
+    const futureGlass = new THREE.MeshStandardMaterial({ color: '#bfefff', transparent: true, opacity: 0.22, roughness: 0.05, metalness: 0.6, emissive: '#a7d3ea', emissiveIntensity: 0.15 });
     const gameWall = mat('#15121f', { roughness: 0.8 });
     const brick = new THREE.MeshStandardMaterial({ roughness: 0.9, map: cv('hq-brick', 256, 128, (c, w, h) => { c.fillStyle = '#8a4b35'; c.fillRect(0, 0, w, h); c.fillStyle = '#d9c7b4'; for (let y = 0; y < h; y += 32) { c.fillRect(0, y, w, 3); for (let x = (y / 32) % 2 ? 32 : 0; x < w; x += 64) c.fillRect(x, y, 3, 32); } }, true) });
     brick.map.repeat.set(4, 2);
@@ -414,16 +414,16 @@ export function buildWorld(scene, renderer) {
     wallZ(MX, Z0 + 0.4, -65, brick);
     // corridor
     flat(X0 + 0.4, X1 - 0.4, -65, -61, 0.03, mat('#9aa0a6', { roughness: 0.35, metalness: 0.2 }));
-    cove(X1 - X0 - 1, 0.12, '#ff4fa3', (X0 + X1) / 2, 0.06, -63);
-    sign(textTexture('hq-name', { text: 'STARTUP HQ', font: '900 150px Inter, sans-serif', color: '#ffffff', glow: '#ff4fa3' }), 5, 1.25, X0 + 0.45, 3.4, -63, Math.PI / 2);
-    sign(textTexture('hq-out', { text: 'STARTUP HQ', font: '900 150px Inter, sans-serif', color: '#ffe1f0', glow: '#ff4fa3' }), 9, 2.2, X1 + 0.3, 5, -63, Math.PI / 2);
+    cove(X1 - X0 - 1, 0.12, '#f19bb0', (X0 + X1) / 2, 0.06, -63);
+    sign(textTexture('hq-name', { text: 'STARTUP HQ', font: '900 150px Inter, sans-serif', color: '#ffffff', glow: '#f19bb0' }), 5, 1.25, X0 + 0.45, 3.4, -63, Math.PI / 2);
+    sign(textTexture('hq-out', { text: 'STARTUP HQ', font: '900 150px Inter, sans-serif', color: '#ffe1f0', glow: '#f19bb0' }), 9, 2.2, X1 + 0.3, 5, -63, Math.PI / 2);
     sign(textTexture('hq-sub', { text: 'retro lab · future lab · game room · cafecito lounge', font: '600 52px Inter, sans-serif', color: '#ffffff', bg: '#1f2229' }), 6, 0.6, X1 + 0.3, 4.1 - 0.2, -63, Math.PI / 2);
     // room labels over doorways (corridor side)
     const label = (key, text, color, x, z, ry) => sign(textTexture(key, { text, font: '800 120px Inter, sans-serif', color: '#ffffff', glow: color }), 3, 0.75, x, 4.6, z, ry);
-    label('hq-l1', 'RETRO LAB', '#ff7a1a', -102.5, -61.2, Math.PI);
-    label('hq-l2', 'FUTURE LAB', '#29d3ff', -83.5, -61.2, Math.PI);
-    label('hq-l3', 'GAME ROOM', '#ff4fa3', -102.5, -64.8, 0);
-    label('hq-l4', 'CAFECITO LOUNGE', '#ffd23f', -83.5, -64.8, 0);
+    label('hq-l1', 'RETRO LAB', '#ffbf9b', -102.5, -61.2, Math.PI);
+    label('hq-l2', 'FUTURE LAB', '#a7d3ea', -83.5, -61.2, Math.PI);
+    label('hq-l3', 'GAME ROOM', '#f19bb0', -102.5, -64.8, 0);
+    label('hq-l4', 'CAFECITO LOUNGE', '#ffd98a', -83.5, -64.8, 0);
 
     // ===== RETRO LAB (80s) =====
     const shag = new THREE.MeshStandardMaterial({ roughness: 1, map: cv('hq-shag', 256, 256, (c, w, h) => { c.fillStyle = '#7a3b12'; c.fillRect(0, 0, w, h); for (let y = 0; y < h; y += 64) for (let x = 0; x < w; x += 64) { c.fillStyle = (x + y) % 128 ? '#c8641e' : '#e9a23b'; c.beginPath(); c.arc(x + 32, y + 32, 22, 0, Math.PI * 2); c.fill(); c.fillStyle = '#5a2a0c'; c.beginPath(); c.arc(x + 32, y + 32, 9, 0, Math.PI * 2); c.fill(); } }, true) });
@@ -431,7 +431,7 @@ export function buildWorld(scene, renderer) {
     box(MX - X0 - 0.6, H - 0.2, 0.06, woodPanel, (X0 + MX) / 2, 0, Z1 - 0.44);
     box(0.06, H - 0.2, Z1 - (-61) - 0.6, woodPanel, X0 + 0.44, 0, (Z1 - 61) / 2);
     const beige = mat('#d8cdb0', { roughness: 0.6 }), orange = mat('#c46a2a', { roughness: 0.5 });
-    const crtTex = cv('hq-crt', 256, 192, (c, w, h) => { c.fillStyle = '#031a07'; c.fillRect(0, 0, w, h); c.fillStyle = '#39ff6b'; c.font = '20px monospace'; ['C:\\> npm run dev', 'READY on :3000', '> git push --force', '> deploy prod', 'ALL SYSTEMS GO_'].forEach((s, i) => c.fillText(s, 12, 32 + i * 32)); });
+    const crtTex = cv('hq-crt', 256, 192, (c, w, h) => { c.fillStyle = '#031a07'; c.fillRect(0, 0, w, h); c.fillStyle = '#a9d3b9'; c.font = '20px monospace'; ['C:\\> npm run dev', 'READY on :3000', '> git push --force', '> deploy prod', 'ALL SYSTEMS GO_'].forEach((s, i) => c.fillText(s, 12, 32 + i * 32)); });
     const crtM = basicTex(crtTex);
     const desk = (x, z) => {
       solidBox(2.4, 0.08, 1.1, orange, x, 0.72, z);
@@ -449,59 +449,59 @@ export function buildWorld(scene, renderer) {
       const body = new THREE.Mesh(new THREE.BoxGeometry(0.85, 1.9, 0.8), mat('#121218', { roughness: 0.5 })); body.position.y = 0.95; g.add(body);
       for (const sx of [-1, 1]) { const side = new THREE.Mesh(new THREE.BoxGeometry(0.03, 1.92, 0.04), glow(color, 1.2)); side.position.set(sx * 0.44, 0.96, 0.41); g.add(side); }
       const marquee = new THREE.Mesh(new THREE.PlaneGeometry(0.8, 0.26), basicTex(textTexture('arc-' + title, { text: title, w: 512, h: 160, font: '900 92px Inter, sans-serif', color: '#ffffff', bg: color }))); marquee.position.set(0, 1.74, 0.41); g.add(marquee);
-      const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.5), basicTex(cv('arc-scr-' + title, 128, 100, (c, w, h) => { c.fillStyle = '#05051a'; c.fillRect(0, 0, w, h); for (let i = 0; i < 18; i++) { c.fillStyle = ['#ff4fa3', '#29d3ff', '#ffd23f', '#39ff6b'][i % 4]; c.fillRect((i * 37) % 110, 10 + ((i * 23) % 70), 10, 8); } c.fillStyle = '#fff'; c.font = '12px monospace'; c.fillText('HI 99999', 30, 95); }))); scr.position.set(0, 1.28, 0.405); scr.rotation.x = -0.12; g.add(scr);
+      const scr = new THREE.Mesh(new THREE.PlaneGeometry(0.62, 0.5), basicTex(cv('arc-scr-' + title, 128, 100, (c, w, h) => { c.fillStyle = '#05051a'; c.fillRect(0, 0, w, h); for (let i = 0; i < 18; i++) { c.fillStyle = ['#f19bb0', '#a7d3ea', '#ffd98a', '#a9d3b9'][i % 4]; c.fillRect((i * 37) % 110, 10 + ((i * 23) % 70), 10, 8); } c.fillStyle = '#fff'; c.font = '12px monospace'; c.fillText('HI 99999', 30, 95); }))); scr.position.set(0, 1.28, 0.405); scr.rotation.x = -0.12; g.add(scr);
       const panel = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.08, 0.35), mat('#222')); panel.position.set(0, 0.95, 0.5); panel.rotation.x = 0.3; g.add(panel);
-      for (const [bx, bc] of [[-0.2, '#ff2d55'], [0.08, '#ffd23f'], [0.2, '#29d3ff']]) { const btn = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.03, 10), glow(bc, 1)); btn.position.set(bx, 1.0, 0.52); g.add(btn); }
+      for (const [bx, bc] of [[-0.2, '#ff2d55'], [0.08, '#ffd98a'], [0.2, '#a7d3ea']]) { const btn = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.03, 10), glow(bc, 1)); btn.position.set(bx, 1.0, 0.52); g.add(btn); }
       g.traverse((o) => { if (o.isMesh) o.castShadow = true; });
       g.position.set(x, 0, z); g.rotation.y = ry; scene.add(g);
       addSolid(x - 0.5, x + 0.5, z - 0.5, z + 0.5, -1, 1.9);
     };
-    arcade(-110.6, -48.2, Math.PI / 2, '#ff2d8a', 'HEART RUN'); arcade(-110.6, -50, Math.PI / 2, '#29d3ff', 'BUG BLASTER');
-    sign(textTexture('hq-1985', { text: 'RAD SINCE 1985', font: '900 120px Inter, sans-serif', color: '#ffe1f0', glow: '#ff4fa3' }), 4, 1, -101, 4, Z1 - 0.5, Math.PI);
-    const poster = (key, x, z, ry, a, b) => sign(cv(key, 256, 360, (c, w, h) => { const g2 = c.createLinearGradient(0, 0, 0, h); g2.addColorStop(0, a); g2.addColorStop(1, b); c.fillStyle = g2; c.fillRect(0, 0, w, h); c.fillStyle = '#ffd23f'; c.beginPath(); c.arc(w / 2, h * 0.55, 70, Math.PI, 0); c.fill(); c.strokeStyle = '#ff4fa3'; c.lineWidth = 3; for (let y = h * 0.6; y < h; y += 14) { c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); } c.fillStyle = '#fff'; c.font = '900 34px Inter'; c.textAlign = 'center'; c.fillText(key.includes('a') ? 'SHIP IT' : 'MIAMI 85', w / 2, 60); }), 1.2, 1.7, x, 2.6, z, ry, false);
-    poster('hq-pa', X0 + 0.5, -57, Math.PI / 2, '#2b1055', '#d6336c'); poster('hq-pb', X0 + 0.5, -53, Math.PI / 2, '#0b3d91', '#29d3ff');
-    cove(MX - X0 - 1, 0.1, '#ff7a1a', (X0 + MX) / 2, H - 0.3, Z1 - 0.6);
+    arcade(-110.6, -48.2, Math.PI / 2, '#ff2d8a', 'HEART RUN'); arcade(-110.6, -50, Math.PI / 2, '#a7d3ea', 'BUG BLASTER');
+    sign(textTexture('hq-1985', { text: 'RAD SINCE 1985', font: '900 120px Inter, sans-serif', color: '#ffe1f0', glow: '#f19bb0' }), 4, 1, -101, 4, Z1 - 0.5, Math.PI);
+    const poster = (key, x, z, ry, a, b) => sign(cv(key, 256, 360, (c, w, h) => { const g2 = c.createLinearGradient(0, 0, 0, h); g2.addColorStop(0, a); g2.addColorStop(1, b); c.fillStyle = g2; c.fillRect(0, 0, w, h); c.fillStyle = '#ffd98a'; c.beginPath(); c.arc(w / 2, h * 0.55, 70, Math.PI, 0); c.fill(); c.strokeStyle = '#f19bb0'; c.lineWidth = 3; for (let y = h * 0.6; y < h; y += 14) { c.beginPath(); c.moveTo(0, y); c.lineTo(w, y); c.stroke(); } c.fillStyle = '#fff'; c.font = '900 34px Inter'; c.textAlign = 'center'; c.fillText(key.includes('a') ? 'SHIP IT' : 'MIAMI 85', w / 2, 60); }), 1.2, 1.7, x, 2.6, z, ry, false);
+    poster('hq-pa', X0 + 0.5, -57, Math.PI / 2, '#2b1055', '#e7849c'); poster('hq-pb', X0 + 0.5, -53, Math.PI / 2, '#0b3d91', '#a7d3ea');
+    cove(MX - X0 - 1, 0.1, '#ffbf9b', (X0 + MX) / 2, H - 0.3, Z1 - 0.6);
     lamp('#ffb070', 10, 16, -103, 4.5, -53);
 
     // ===== FUTURE LAB =====
-    const gridTex = cv('hq-grid', 256, 256, (c, w, h) => { c.fillStyle = '#eef3f7'; c.fillRect(0, 0, w, h); c.strokeStyle = '#29d3ff'; c.lineWidth = 3; c.strokeRect(0, 0, w, h); }, true);
-    flat(MX + 0.12, X1 - 0.4, -60.9, Z1 - 0.4, 0.03, new THREE.MeshStandardMaterial({ map: gridTex, emissiveMap: gridTex, emissive: '#29d3ff', emissiveIntensity: 0.25, roughness: 0.15, metalness: 0.2 }), [2, 2]);
+    const gridTex = cv('hq-grid', 256, 256, (c, w, h) => { c.fillStyle = '#eef3f7'; c.fillRect(0, 0, w, h); c.strokeStyle = '#a7d3ea'; c.lineWidth = 3; c.strokeRect(0, 0, w, h); }, true);
+    flat(MX + 0.12, X1 - 0.4, -60.9, Z1 - 0.4, 0.03, new THREE.MeshStandardMaterial({ map: gridTex, emissiveMap: gridTex, emissive: '#a7d3ea', emissiveIntensity: 0.25, roughness: 0.15, metalness: 0.2 }), [2, 2]);
     box(X1 - MX - 0.6, H - 0.2, 0.06, whitePanel, (MX + X1) / 2, 0, Z1 - 0.44);
     const white = mat('#f7f9fb', { roughness: 0.2, metalness: 0.1 });
     const holoTex = (key, draw) => cv(key, 256, 160, (c, w, h) => { c.fillStyle = 'rgba(41,211,255,0.12)'; c.fillRect(0, 0, w, h); c.strokeStyle = '#7fe7ff'; c.lineWidth = 2; c.strokeRect(2, 2, w - 4, h - 4); draw(c, w, h); });
     const holo = (tex, w, h, x, y, z, ry) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, transparent: true, opacity: 0.9, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false })); m.position.set(x, y, z); m.rotation.y = ry; scene.add(m); const y0 = y, ph = x * 0.7; updaters.push((t) => { m.position.y = y0 + Math.sin(t * 1.4 + ph) * 0.04; }); return m; };
-    const chart = holoTex('hq-holo1', (c, w, h) => { c.strokeStyle = '#34D59A'; c.lineWidth = 4; c.beginPath(); c.moveTo(16, 130); [[60, 110], [100, 118], [140, 80], [180, 70], [230, 24]].forEach(([x, y]) => c.lineTo(x, y)); c.stroke(); c.fillStyle = '#ffffff'; c.font = '700 18px Inter'; c.fillText('MRR ↑ 420%', 16, 26); });
+    const chart = holoTex('hq-holo1', (c, w, h) => { c.strokeStyle = '#a9d3b9'; c.lineWidth = 4; c.beginPath(); c.moveTo(16, 130); [[60, 110], [100, 118], [140, 80], [180, 70], [230, 24]].forEach(([x, y]) => c.lineTo(x, y)); c.stroke(); c.fillStyle = '#ffffff'; c.font = '700 18px Inter'; c.fillText('MRR ↑ 420%', 16, 26); });
     const code = holoTex('hq-holo2', (c) => { c.fillStyle = '#bff6ff'; c.font = '15px monospace'; ['const db = neon(env.DATABASE_URL)', 'await db`select * from users`', '// branch per preview deploy', 'export default App'].forEach((s, i) => c.fillText(s, 12, 36 + i * 30)); });
     const neonHolo = holoTex('hq-holo3', (c, w, h) => { drawNeonLogo(c, 40, 40, 176); c.fillStyle = '#ffffff'; c.font = '600 16px Inter'; c.fillText('Main character energy only', 30, 130); });
     const fdesk = (x, z) => {
       const top = new THREE.Mesh(new THREE.TorusGeometry(1.0, 0.16, 8, 28, Math.PI), white); top.rotation.x = -Math.PI / 2; top.scale.z = 0.35; top.position.set(x, 0.78, z); top.castShadow = true; scene.add(top);
       const ped = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.2, 0.76, 12), white); ped.position.set(x, 0.38, z + 0.3); scene.add(ped);
-      const strip = new THREE.Mesh(new THREE.TorusGeometry(1.0, 0.02, 4, 28, Math.PI), glow('#29d3ff', 2)); strip.rotation.x = -Math.PI / 2; strip.position.set(x, 0.72, z); scene.add(strip);
+      const strip = new THREE.Mesh(new THREE.TorusGeometry(1.0, 0.02, 4, 28, Math.PI), glow('#a7d3ea', 2)); strip.rotation.x = -Math.PI / 2; strip.position.set(x, 0.72, z); scene.add(strip);
       addSolid(x - 1.15, x + 1.15, z - 0.2, z + 1.15, -1, 0.85);
     };
     fdesk(-88.5, -57.5); fdesk(-79, -57.5);
     holo(chart, 1.4, 0.88, -88.5, 1.55, -57.2, 0); holo(code, 1.4, 0.88, -79, 1.55, -57.2, 0); holo(neonHolo, 2.4, 1.5, -83.7, 3.1, Z1 - 0.7, Math.PI);
     const ped = box(1, 0.9, 1, white, -83.7, 0, -51); addSolid(-84.2, -83.2, -51.5, -50.5, -1, 0.9);
-    const globe = new THREE.Mesh(new THREE.IcosahedronGeometry(0.75, 2), new THREE.MeshBasicMaterial({ color: '#29d3ff', wireframe: true, transparent: true, opacity: 0.8 }));
+    const globe = new THREE.Mesh(new THREE.IcosahedronGeometry(0.75, 2), new THREE.MeshBasicMaterial({ color: '#a7d3ea', wireframe: true, transparent: true, opacity: 0.8 }));
     globe.position.set(-83.7, 2.0, -51); scene.add(globe);
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.05, 0.02, 6, 48), glow('#ff4fa3', 2)); ring.position.copy(globe.position); scene.add(ring);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(1.05, 0.02, 6, 48), glow('#f19bb0', 2)); ring.position.copy(globe.position); scene.add(ring);
     updaters.push((t) => { globe.rotation.y = t * 0.5; ring.rotation.x = Math.PI / 2 + Math.sin(t) * 0.3; ring.rotation.y = t * 0.8; });
     const pod = (x, z, ry) => {
       const shell = new THREE.Mesh(new THREE.SphereGeometry(0.7, 20, 14, 0, Math.PI * 2, 0, Math.PI * 0.62), white); shell.rotation.x = -Math.PI / 2 + 0.25; shell.position.set(x, 0.75, z); shell.rotation.z = ry; shell.castShadow = true;
-      const cush = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 10), mat('#29d3ff', { roughness: 0.8 })); cush.scale.set(1, 0.35, 1); cush.position.set(x, 0.45, z);
+      const cush = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 10), mat('#a7d3ea', { roughness: 0.8 })); cush.scale.set(1, 0.35, 1); cush.position.set(x, 0.45, z);
       scene.add(shell, cush); addSolid(x - 0.6, x + 0.6, z - 0.6, z + 0.6, -1, 1.2);
     };
     pod(-90, -48.5, 0); pod(-77.5, -48.5, 0);
     const rack = box(0.9, 2.2, 0.8, mat('#0d0f14', { metalness: 0.6, roughness: 0.3 }), X1 - 0.95, 0, -53); addSolid(X1 - 1.4, X1 - 0.5, -53.4, -52.6, -1, 2.2);
     const leds = [];
-    for (let i = 0; i < 14; i++) { const l = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.03, 0.05), glow(i % 3 ? '#34D59A' : '#29d3ff', 2)); l.material = l.material.clone(); l.position.set(X1 - 1.41, 0.2 + i * 0.14, -53.2 + (i % 2) * 0.3); scene.add(l); leds.push(l); }
+    for (let i = 0; i < 14; i++) { const l = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.03, 0.05), glow(i % 3 ? '#a9d3b9' : '#a7d3ea', 2)); l.material = l.material.clone(); l.position.set(X1 - 1.41, 0.2 + i * 0.14, -53.2 + (i % 2) * 0.3); scene.add(l); leds.push(l); }
     updaters.push((t) => { leds.forEach((l, i) => { l.material.emissiveIntensity = (Math.sin(t * 7 + i * 2.3) > 0.2) ? 2.5 : 0.2; }); });
-    sign(textTexture('hq-future', { text: 'FUTURE LAB', font: '900 130px Inter, sans-serif', color: '#e6fbff', glow: '#29d3ff' }), 3.6, 0.9, MX + 0.2, 4.4, -53.5, Math.PI / 2);
-    cove(0.1, Z1 + 61 - 1, '#29d3ff', X1 - 0.55, H - 0.3, (Z1 - 61) / 2);
+    sign(textTexture('hq-future', { text: 'FUTURE LAB', font: '900 130px Inter, sans-serif', color: '#e6fbff', glow: '#a7d3ea' }), 3.6, 0.9, MX + 0.2, 4.4, -53.5, Math.PI / 2);
+    cove(0.1, Z1 + 61 - 1, '#a7d3ea', X1 - 0.55, H - 0.3, (Z1 - 61) / 2);
     lamp('#9fe9ff', 9, 15, -83.5, 4.5, -53.5);
 
     // ===== GAME ROOM =====
-    flat(X0 + 0.4, MX - 0.12, Z0 + 0.4, -65.1, 0.03, new THREE.MeshStandardMaterial({ roughness: 0.6, map: cv('hq-rubber', 256, 256, (c, w, h) => { c.fillStyle = '#1b1b24'; c.fillRect(0, 0, w, h); c.fillStyle = '#ff4fa3'; c.fillRect(0, 120, w, 6); c.fillStyle = '#29d3ff'; c.fillRect(120, 0, 6, h); }, true) }), [6, 6]);
+    flat(X0 + 0.4, MX - 0.12, Z0 + 0.4, -65.1, 0.03, new THREE.MeshStandardMaterial({ roughness: 0.6, map: cv('hq-rubber', 256, 256, (c, w, h) => { c.fillStyle = '#1b1b24'; c.fillRect(0, 0, w, h); c.fillStyle = '#f19bb0'; c.fillRect(0, 120, w, 6); c.fillStyle = '#a7d3ea'; c.fillRect(120, 0, 6, h); }, true) }), [6, 6]);
     const pingPong = (x, z) => {
       const tm = mat('#1d4f9a', { roughness: 0.4 }), wm = mat('#ffffff');
       box(2.74, 0.05, 1.52, tm, x, 0.71, z);
@@ -527,13 +527,13 @@ export function buildWorld(scene, renderer) {
       addSolid(x - 0.65, x + 0.65, z - 0.5, z + 0.5, -1, 1);
     };
     foos(-108, -68.5);
-    arcade(-96, -67.6, Math.PI, '#ffd23f', 'DATA RACER'); arcade(-97.2, -67.6, Math.PI, '#39ff6b', 'QUERY QUEST');
+    arcade(-96, -67.6, Math.PI, '#ffd98a', 'DATA RACER'); arcade(-97.2, -67.6, Math.PI, '#a9d3b9', 'QUERY QUEST');
     const dart = new THREE.Mesh(new THREE.CircleGeometry(0.45, 32), basicTex(cv('hq-dart', 256, 256, (c, w, h) => { const cols = ['#111', '#e9dcc4', '#d62828', '#2e8b57']; for (let r = 6; r > 0; r--) { c.fillStyle = cols[r % 4]; c.beginPath(); c.arc(128, 128, r * 20, 0, Math.PI * 2); c.fill(); } c.fillStyle = '#d62828'; c.beginPath(); c.arc(128, 128, 8, 0, Math.PI * 2); c.fill(); })));
     dart.position.set(X0 + 0.46, 1.8, -71); dart.rotation.y = Math.PI / 2; scene.add(dart);
-    sign(textTexture('hq-play', { text: 'PLAY HARD · SHIP HARDER', font: '900 96px Inter, sans-serif', color: '#ffe1f0', glow: '#ff4fa3' }), 5.5, 1, -102.5, 4.2, Z0 + 0.5, 0);
-    cove(MX - X0 - 1, 0.1, '#ff4fa3', (X0 + MX) / 2, H - 0.3, Z0 + 0.6); cove(0.1, 13.5, '#29d3ff', X0 + 0.55, H - 0.3, -72.5);
+    sign(textTexture('hq-play', { text: 'PLAY HARD · SHIP HARDER', font: '900 96px Inter, sans-serif', color: '#ffe1f0', glow: '#f19bb0' }), 5.5, 1, -102.5, 4.2, Z0 + 0.5, 0);
+    cove(MX - X0 - 1, 0.1, '#f19bb0', (X0 + MX) / 2, H - 0.3, Z0 + 0.6); cove(0.1, 13.5, '#a7d3ea', X0 + 0.55, H - 0.3, -72.5);
     const beanbag = (x, z, color) => { const b = new THREE.Mesh(new THREE.SphereGeometry(0.55, 16, 10), mat(color, { roughness: 0.9 })); b.scale.set(1, 0.6, 1); b.position.set(x, 0.33, z); b.castShadow = true; scene.add(b); addSolid(x - 0.45, x + 0.45, z - 0.45, z + 0.45, -1, 0.6); };
-    beanbag(-110, -71, '#ff4fa3'); beanbag(-110, -73, '#29d3ff');
+    beanbag(-110, -71, '#f19bb0'); beanbag(-110, -73, '#a7d3ea');
     lamp('#ffd6ee', 16, 18, -102.5, 4.5, -72.5);
 
     // ===== CAFECITO LOUNGE =====
@@ -541,24 +541,24 @@ export function buildWorld(scene, renderer) {
     solidBox(9, 1.05, 0.9, mat('#2b2b2e', { roughness: 0.4 }), -83.5, 0, Z0 + 1.1);
     box(9.1, 0.07, 1.0, mat('#e9e4da', { roughness: 0.2 }), -83.5, 1.05, Z0 + 1.1);
     box(0.7, 0.6, 0.5, mat('#c9ccd2', { metalness: 1, roughness: 0.2 }), -86, 1.12, Z0 + 1.1);
-    const esp = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.12), glow('#ff7a1a', 1.5)); esp.position.set(-86, 1.55, Z0 + 1.36); scene.add(esp);
+    const esp = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.12), glow('#ffbf9b', 1.5)); esp.position.set(-86, 1.55, Z0 + 1.36); scene.add(esp);
     for (let i = 0; i < 5; i++) { const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.1, 10), mat('#ffffff')); cup.position.set(-84.5 + i * 0.3, 1.17, Z0 + 1.1); scene.add(cup); }
-    sign(textTexture('hq-menu', { text: 'CAFECITO · CORTADITO · COLADA · COLD BREW', w: 1600, font: '700 80px Inter, sans-serif', color: '#ffd23f', bg: '#1b1410' }), 6.5, 0.8, -83.5, 3.1, Z0 + 0.45, 0);
+    sign(textTexture('hq-menu', { text: 'CAFECITO · CORTADITO · COLADA · COLD BREW', w: 1600, font: '700 80px Inter, sans-serif', color: '#ffd98a', bg: '#1b1410' }), 6.5, 0.8, -83.5, 3.1, Z0 + 0.45, 0);
     sign(textTexture('hq-shipit', { text: 'ship it ☕', font: 'italic 900 150px Inter, sans-serif', color: '#fff4c2', glow: '#ffb000' }), 3.6, 1, -83.5, 4.6, Z0 + 0.45, 0);
     lounge(-88, -72, 0.3); lounge(-79, -72, 0);
-    beanbag(-90.5, -67.8, '#ffd23f'); beanbag(-77, -67.8, '#7b3cff');
-    const rug = new THREE.Mesh(new THREE.CircleGeometry(2.6, 40), mat('#d6336c', { roughness: 1 })); rug.rotation.x = -Math.PI / 2; rug.position.set(-83.5, 0.04, -72); scene.add(rug);
+    beanbag(-90.5, -67.8, '#ffd98a'); beanbag(-77, -67.8, '#cdb9e6');
+    const rug = new THREE.Mesh(new THREE.CircleGeometry(2.6, 40), mat('#e7849c', { roughness: 1 })); rug.rotation.x = -Math.PI / 2; rug.position.set(-83.5, 0.04, -72); scene.add(rug);
     for (const [x, z] of [[MX + 0.9, Z0 + 1.1], [X1 - 0.9, Z0 + 1.1], [X1 - 0.9, -66.2], [MX + 0.9, -66.2]]) plant(x, z, 0.8);
     const shelf = box(0.4, 2.4, 3.2, woodDark, X1 - 0.65, 0, -71); addSolid(X1 - 0.9, X1 - 0.4, -72.6, -69.4, -1, 2.4);
-    for (let s = 0; s < 4; s++) for (let b = 0; b < 9; b++) box(0.25, 0.32 + ((b * 7) % 3) * 0.04, 0.12, mat(['#d62828', '#29d3ff', '#ffd23f', '#34D59A', '#7b3cff', '#ff7a1a'][(b + s) % 6]), X1 - 0.9, 0.15 + s * 0.6, -72.4 + b * 0.32);
+    for (let s = 0; s < 4; s++) for (let b = 0; b < 9; b++) box(0.25, 0.32 + ((b * 7) % 3) * 0.04, 0.12, mat(['#d62828', '#a7d3ea', '#ffd98a', '#a9d3b9', '#cdb9e6', '#ffbf9b'][(b + s) % 6]), X1 - 0.9, 0.15 + s * 0.6, -72.4 + b * 0.32);
     lamp('#ffd9a0', 9, 15, -83.5, 4.5, -72.5);
 
     // entrance beacon so people find the offices
-    const beam = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 60, 20, 1, true), new THREE.MeshBasicMaterial({ color: '#ff7a1a', transparent: true, opacity: 0.18, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }));
+    const beam = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 60, 20, 1, true), new THREE.MeshBasicMaterial({ color: '#ffbf9b', transparent: true, opacity: 0.18, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }));
     beam.position.set(X1 + 4, 30, -63); scene.add(beam);
-    const ringE = new THREE.Mesh(new THREE.RingGeometry(1.5, 2.1, 40), new THREE.MeshBasicMaterial({ color: '#ff7a1a', transparent: true, opacity: 0.8, side: THREE.DoubleSide }));
+    const ringE = new THREE.Mesh(new THREE.RingGeometry(1.5, 2.1, 40), new THREE.MeshBasicMaterial({ color: '#ffbf9b', transparent: true, opacity: 0.8, side: THREE.DoubleSide }));
     ringE.rotation.x = -Math.PI / 2; ringE.position.set(X1 + 4, 0.06, -63); scene.add(ringE);
-    const enter = new THREE.Mesh(new THREE.PlaneGeometry(6, 1.5), new THREE.MeshBasicMaterial({ map: textTexture('hq-enter', { text: 'OFFICES · GAME ROOM · CAFÉ  →', font: '900 84px Inter, sans-serif', color: '#ffffff', bg: '#ff7a1a' }), side: THREE.DoubleSide }));
+    const enter = new THREE.Mesh(new THREE.PlaneGeometry(6, 1.5), new THREE.MeshBasicMaterial({ map: textTexture('hq-enter', { text: 'OFFICES · GAME ROOM · CAFÉ  →', font: '900 84px Inter, sans-serif', color: '#ffffff', bg: '#ffbf9b' }), side: THREE.DoubleSide }));
     enter.position.set(X1 + 4, 3.6, -63); scene.add(enter);
     updaters.push((t, dt, player) => {
       enter.position.y = 3.6 + Math.sin(t * 2) * 0.15;
@@ -573,9 +573,9 @@ export function buildWorld(scene, renderer) {
     // Hyatt lobby (ground floor of the tower)
     hall(-26, 4, -62, -38, 9, { wall: wallM, glass: { z1: glassM }, label: 'Lobby', doors: [{ edge: 'z1', c: -11, w: 10, h: 4 }, { edge: 'x1', c: -49, w: 4, h: 3.5 }] });
     flat(-25.6, 3.6, -61.6, -38.4, 0.03, floorTile, [3, 3]);
-    for (const [w, d, x, z] of [[29, 0.25, -11, -61.3], [29, 0.25, -11, -38.7], [0.25, 23, -25.3, -50], [0.25, 23, 3.3, -50]]) cove(w, d, '#b44dff', x, 8.4, z);
-    cove(12, 0.25, '#b44dff', -11, 8.7, -55); cove(12, 0.25, '#b44dff', -11, 8.7, -45); cove(0.25, 10, '#b44dff', -17, 8.7, -50); cove(0.25, 10, '#b44dff', -5, 8.7, -50);
-    lamp('#ffe2c0', 14, 22, -18, 7.5, -50); lamp('#ffe2c0', 14, 22, -3, 7.5, -50); lamp('#c77dff', 10, 16, -11, 8, -42);
+    for (const [w, d, x, z] of [[29, 0.25, -11, -61.3], [29, 0.25, -11, -38.7], [0.25, 23, -25.3, -50], [0.25, 23, 3.3, -50]]) cove(w, d, '#cdb9e6', x, 8.4, z);
+    cove(12, 0.25, '#cdb9e6', -11, 8.7, -55); cove(12, 0.25, '#cdb9e6', -11, 8.7, -45); cove(0.25, 10, '#cdb9e6', -17, 8.7, -50); cove(0.25, 10, '#cdb9e6', -5, 8.7, -50);
+    lamp('#ffe2c0', 14, 22, -18, 7.5, -50); lamp('#ffe2c0', 14, 22, -3, 7.5, -50); lamp('#cdb9e6', 10, 16, -11, 8, -42);
     const col = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 8.6, 32), new THREE.MeshStandardMaterial({ color: '#d9dde2', metalness: 1, roughness: 0.06 }));
     col.position.set(-11, 4.3, -50); col.castShadow = true; scene.add(col);
     for (let y = 0.6; y < 8.6; y += 1.1) { const r = new THREE.Mesh(new THREE.TorusGeometry(1.12, 0.05, 6, 32), mat('#222')); r.rotation.x = Math.PI / 2; r.position.set(-11, y, -50); scene.add(r); }
@@ -604,7 +604,7 @@ export function buildWorld(scene, renderer) {
     box(1.1, 1.15, 8, mat('#6f6a60', { roughness: 0.35 }), 0.6, 0, -57); addSolid(0, 1.2, -61, -53, -1, 1.2);
     box(1.15, 0.08, 8.1, mat('#1c1c1c', { roughness: 0.2 }), 0.6, 1.15, -57);
     box(0.5, 3, 8, woodDark, 3.3, 0, -57);
-    for (let i = 0; i < 5; i++) { const b = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.35, 8), mat(['#2e8b57', '#d4a017', '#8b0000', '#f5f5f5', '#34D59A'][i], { roughness: 0.1 })); b.position.set(3.3, 1.6, -60 + i * 1.4); scene.add(b); }
+    for (let i = 0; i < 5; i++) { const b = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 0.35, 8), mat(['#2e8b57', '#d4a017', '#8b0000', '#f5f5f5', '#a9d3b9'][i], { roughness: 0.1 })); b.position.set(3.3, 1.6, -60 + i * 1.4); scene.add(b); }
     sign(textTexture('verde', { text: 'PURE VERDE', font: '700 120px Inter, sans-serif', color: '#7ed957', glow: '#7ed957' }), 6, 1.5, 3.55, 5, -57, -Math.PI / 2);
     // Market + Riverwalk Cafe (west side)
     box(1.2, 1.1, 6, mat('#f2efe9', { roughness: 0.4 }), -23.6, 0, -43); addSolid(-24.2, -23, -46, -40, -1, 1.1);
@@ -635,9 +635,9 @@ export function buildWorld(scene, renderer) {
     seats.forEach(([x, z], i) => { dm.position.set(x, 0.45, z); dm.updateMatrix(); seatMesh.setMatrixAt(i, dm.matrix); });
     seatMesh.castShadow = true; scene.add(seatMesh);
     addSolid(14.6, 33.4, -56.4, -40.6, -1, 0.9); addSolid(38.6, 57.4, -56.4, -40.6, -1, 0.9);
-    for (let x = 14; x <= 58; x += 8) for (const z of [-71.5, -32.5]) { const u = cove(0.5, 0.2, '#c77dff', x, 0.3, z); u.scale.y = 1; }
+    for (let x = 14; x <= 58; x += 8) for (const z of [-71.5, -32.5]) { const u = cove(0.5, 0.2, '#cdb9e6', x, 0.3, z); u.scale.y = 1; }
     for (let z = -68; z <= -36; z += 8) for (const x of [10.5, 61.5]) { const up = new THREE.Mesh(new THREE.BoxGeometry(0.15, 10, 0.6), new THREE.MeshBasicMaterial({ color: '#9b4dff', transparent: true, opacity: 0.55 })); up.position.set(x, 5, z); scene.add(up); }
-    lamp('#ff4fa3', 120, 40, 24, 12, -50); lamp('#29d3ff', 120, 40, 48, 12, -50); lamp('#fff1d6', 60, 30, 36, 11, -64);
+    lamp('#f19bb0', 120, 40, 24, 12, -50); lamp('#a7d3ea', 120, 40, 48, 12, -50); lamp('#fff1d6', 60, 30, 36, 11, -64);
   }
 
   // Hyatt Regency Miami
@@ -651,13 +651,13 @@ export function buildWorld(scene, renderer) {
   box(16, 0.5, 6, canopyM, -11, 4.4, -35.5);
   for (const [x, z] of [[-18.5, -32.8], [-3.5, -32.8]]) { box(0.5, 4.4, 0.5, canopyM, x, 0, z); addSolid(x - 0.3, x + 0.3, z - 0.3, z + 0.3, -1, 4.4); }
   // welcome sign under canopy
-  const welcome = new THREE.Mesh(new THREE.PlaneGeometry(9, 1.3), new THREE.MeshBasicMaterial({ map: textTexture('welcome', { text: 'WELCOME TO GIRLY CITY', font: '96px Anton', color: '#ffffff', bg: '#ff4fa3' }) }));
+  const welcome = new THREE.Mesh(new THREE.PlaneGeometry(9, 1.3), new THREE.MeshBasicMaterial({ map: textTexture('welcome', { text: 'WELCOME TO GIRLY CITY', font: '96px Anton', color: '#ffffff', bg: '#f19bb0' }) }));
   welcome.position.set(-11, 5.25, -32.45);
   scene.add(welcome);
 
   // James L. Knight Center
   // React Miami banner on Knight Center
-  const rmTex = textTexture('rmbanner', { text: 'GIRLY CITY ✿', font: '900 150px Inter, sans-serif', color: '#ffffff', bg: '#ff8fc8' });
+  const rmTex = textTexture('rmbanner', { text: 'GIRLY CITY ✿', font: '900 150px Inter, sans-serif', color: '#ffffff', bg: '#f6bccb' });
   const rmBanner = new THREE.Mesh(new THREE.PlaneGeometry(24, 9), new THREE.MeshBasicMaterial({ map: rmTex }));
   rmBanner.position.set(36, 8.6, -31.75);
   scene.add(rmBanner);
@@ -784,7 +784,7 @@ export function buildWorld(scene, renderer) {
   const [rx, rz] = REBECCA_SPOT;
   box(4, 1.1, 1.2, mat('#ffffff'), rx - 5, 0, rz - 1);
   addSolid(rx - 7, rx - 3, rz - 1.6, rz - 0.4, -1, 1.1);
-  const regSign = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 0.8), new THREE.MeshBasicMaterial({ map: textTexture('reg', { text: 'REGISTRATION', font: '110px Anton', color: '#ffffff', bg: '#16123a' }) }));
+  const regSign = new THREE.Mesh(new THREE.PlaneGeometry(3.6, 0.8), new THREE.MeshBasicMaterial({ map: textTexture('reg', { text: 'REGISTRATION', font: '110px Anton', color: '#ffffff', bg: '#4a3138' }) }));
   regSign.position.set(rx - 5, 1.6, rz - 0.38);
   scene.add(regSign);
 
@@ -828,7 +828,7 @@ export function buildWorld(scene, renderer) {
   const boat = new THREE.Group();
   const hull = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.8, 6), mat('#ffffff'));
   hull.position.y = -0.3; boat.add(hull);
-  const stripeB = new THREE.Mesh(new THREE.BoxGeometry(2.25, 0.2, 6.05), mat('#ff4fa3'));
+  const stripeB = new THREE.Mesh(new THREE.BoxGeometry(2.25, 0.2, 6.05), mat('#f19bb0'));
   stripeB.position.y = -0.1; boat.add(stripeB);
   scene.add(boat);
   updaters.push((t) => {
@@ -943,7 +943,7 @@ function buildYacht(scene, wood, updaters) {
   const hull = new THREE.Mesh(hullGeo(2.6, -1.0), mat('#e9e9ea', { roughness: 0.45, envMapIntensity: 0.5 }));
   hull.castShadow = hull.receiveShadow = true;
   g.add(hull);
-  g.add(new THREE.Mesh(hullGeo(0.35, 0.6, 1.004), mat('#16123a')));
+  g.add(new THREE.Mesh(hullGeo(0.35, 0.6, 1.004), mat('#4a3138')));
   g.add(new THREE.Mesh(hullGeo(0.25, -0.55, 1.008), new THREE.MeshBasicMaterial({ color: NEON })));
   const deck = new THREE.Mesh(hullGeo(0.08, 1.55, 0.97), new THREE.MeshStandardMaterial({ map: wood.map, roughness: 0.8 }));
   deck.receiveShadow = true;
@@ -995,7 +995,7 @@ function buildYacht(scene, wood, updaters) {
   djFront.position.set(0, 4.8, -11.99);
   g.add(djFront);
   // hull text
-  const nameTex = textTexture('yachtname', { text: 'BESTIE BOAT', font: '150px Anton', color: '#16123a' });
+  const nameTex = textTexture('yachtname', { text: 'BESTIE BOAT', font: '150px Anton', color: '#4a3138' });
   for (const side of [-1, 1]) {
     const n = new THREE.Mesh(new THREE.PlaneGeometry(10, 2.5), new THREE.MeshBasicMaterial({ map: nameTex, transparent: true }));
     n.position.set(side * 9.03, 0.0, -2);
@@ -1008,7 +1008,7 @@ function buildYacht(scene, wood, updaters) {
   let k = 0;
   for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) tiles.setMatrixAt(k++, m4.makeTranslation(-4.8 + i * 1.7 + 0.85, 1.62, 8 + j * 1.7));
   g.add(tiles);
-  const dcols = ['#ff4fa3', '#29d3ff', NEON, '#ffd23f', '#7b5cff', '#16123a'].map((c) => new THREE.Color(c));
+  const dcols = ['#f19bb0', '#a7d3ea', NEON, '#ffd98a', '#cdb9e6', '#4a3138'].map((c) => new THREE.Color(c));
   let last = -1;
   updaters.push((t) => {
     const beat = Math.floor(t * 2.5);
@@ -1018,10 +1018,10 @@ function buildYacht(scene, wood, updaters) {
     tiles.instanceColor.needsUpdate = true;
   });
   // party lights
-  const pl1 = new THREE.PointLight('#ff4fa3', 40, 20);
+  const pl1 = new THREE.PointLight('#f19bb0', 40, 20);
   pl1.position.set(0, 4, 12);
   g.add(pl1);
-  const pl2 = new THREE.PointLight('#29d3ff', 40, 20);
+  const pl2 = new THREE.PointLight('#a7d3ea', 40, 20);
   pl2.position.set(0, 4, 16);
   g.add(pl2);
   updaters.push((t) => {
@@ -1041,7 +1041,7 @@ function buildYacht(scene, wood, updaters) {
     g.add(r);
   }
   // flag
-  const flag = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.4), new THREE.MeshBasicMaterial({ map: textTexture('flag', { text: 'REACT\nMIAMI', w: 256, h: 160, font: '60px Anton', color: '#fff', bg: '#ff4fa3' }), side: THREE.DoubleSide }));
+  const flag = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.4), new THREE.MeshBasicMaterial({ map: textTexture('flag', { text: 'REACT\nMIAMI', w: 256, h: 160, font: '60px Anton', color: '#fff', bg: '#f19bb0' }), side: THREE.DoubleSide }));
   flag.position.set(1.3, 9.2, 21);
   g.add(flag);
   const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 7.6, 6), railM);

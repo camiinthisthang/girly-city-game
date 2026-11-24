@@ -54,7 +54,7 @@ export function createNpcs(scene, world, opts = {}) {
   };
 
   const [rx, rz] = REBECCA_SPOT;
-  const rebecca = add(REBECCA_LOOK, { name: opts.giverName || 'Rebecca Bakels', subtitle: opts.giverTag || 'ORGANIZER', tagColor: '#ff8fc8', kind: 'rebecca', blip: 'R' }, rx, 0, rz, 0);
+  const rebecca = add(REBECCA_LOOK, { name: opts.giverName || 'Rebecca Bakels', subtitle: opts.giverTag || 'ORGANIZER', tagColor: '#f6bccb', kind: 'rebecca', blip: 'R' }, rx, 0, rz, 0);
 
   const [bx, bz] = BOOTH_SPOT;
   const neonRep = add({ ...randomLook(), outfit: 'signature', hat: 'none', glasses: 'none' }, { name: 'Stylist', subtitle: 'WARDROBE', kind: 'neon' }, bx + 1.5, 0, bz - 5.5, 0);

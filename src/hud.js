@@ -136,7 +136,7 @@ export class Hud {
         const ph = (performance.now() / 1000) % 1.2 / 1.2;
         ctx.strokeStyle = `rgba(255,122,26,${1 - ph})`; ctx.lineWidth = 3;
         ctx.beginPath(); ctx.arc(0, 0, 12 + ph * 12, 0, Math.PI * 2); ctx.stroke();
-        ctx.fillStyle = '#ff7a1a'; ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
+        ctx.fillStyle = '#ffbf9b'; ctx.strokeStyle = '#000'; ctx.lineWidth = 2;
         ctx.beginPath(); ctx.roundRect(-16, -10, 32, 20, 5); ctx.fill(); ctx.stroke();
         ctx.fillStyle = '#fff'; ctx.font = '900 13px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText('HQ', 0, 1);
@@ -259,7 +259,7 @@ export class Hud {
     this._toastT = setTimeout(() => el.classList.add('hidden'), ms);
   }
 
-  banner(title, sub, color = '#ffd23f', ms = 4200) {
+  banner(title, sub, color = '#ffd98a', ms = 4200) {
     const el = this.$('h-banner');
     this.$('h-btitle').textContent = title;
     this.$('h-btitle').style.color = color;

@@ -51,9 +51,9 @@ const GradeShader = {
     void main(){
       vec3 c = texture2D(tDiffuse, vUv).rgb;
       float l = dot(c, vec3(0.299,0.587,0.114));
-      c = mix(vec3(l), c, 1.05);
-      c = c * 0.86 + 0.11;
-      c += mix(vec3(0.06,0.0,0.05), vec3(0.07,0.02,0.04), smoothstep(0.1,0.8,l));
+      c = mix(vec3(l), c, 0.92);
+      c = c * 0.84 + 0.13;
+      c += mix(vec3(0.05,0.03,0.035), vec3(0.06,0.045,0.03), smoothstep(0.1,0.8,l));
       vec2 d = vUv - 0.5;
       c *= 1.0 - dot(d,d) * 0.85;
       c += (hash(vUv * 1000.0 + time) - 0.5) * 0.035;
@@ -100,7 +100,7 @@ function challenge(id, amt = 1) {
   progress.daily.p[id] = (progress.daily.p[id] || 0) + amt;
   if (progress.daily.p[id] >= (c.n || 1)) {
     progress.daily.done.push(id);
-    hud.banner('CHALLENGE COMPLETE', `${c.text} · +${c.xp} XP`, '#29d3ff', 3500);
+    hud.banner('CHALLENGE COMPLETE', `${c.text} · +${c.xp} XP`, '#a7d3ea', 3500);
     addCash(c.xp);
   }
   save('rm_progress', progress);
@@ -152,7 +152,7 @@ const creator = new Creator(renderer, $('#creator'), (look, name, m) => {
   creator.hide();
   if (m === 'wardrobe') {
     me.setLook(look);
-    me.setName(name, null, '#29d3ff');
+    me.setName(name, null, '#a7d3ea');
     net.setLook(name, look);
     mode = 'game';
     $('#hud').classList.remove('hidden');
@@ -183,7 +183,7 @@ function initWorld() {
   world = buildWorld(scene, renderer);
   composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  if (!isTouch) composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth / 2, innerHeight / 2), 0.3, 0.4, 0.97));
+  if (!isTouch) composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth / 2, innerHeight / 2), 0.16, 0.4, 0.97));
   composer.addPass(new OutputPass());
   grade = new ShaderPass(GradeShader);
   composer.addPass(grade);
@@ -194,12 +194,13 @@ function initWorld() {
   races = createRaces(scene, hud, { onFinish: finishRace });
   showDaily();
   missions = createMissions({ scene, hud, sfx, giver: () => npcs.rebecca, cfg: {
-    missions: MISSIONS, color: '#ff8fc8', rageName: 'DRAMA', bagColors: ['#ff8fc8', '#c9a7ff', '#7fd8d4', '#ffc36b'],
-    giverName: () => BESTIE, acceptLine: 'Say less, bestie', declineLine: 'Maybe later...', declineReply: '"Maybe later?" The group chat is talking. Drama +1',
+    missions: MISSIONS, color: '#f19bb0', rageName: 'RUNNING LATE', bagColors: ['#f6bccb', '#cdb9e6', '#a7d3ea', '#ffd98a'],
+    giverName: () => BESTIE, acceptLine: 'Say less, bestie', declineLine: 'Five more minutes...', declineReply: '"Five more minutes?" We do NOT have five minutes.',
     wrongLine: 'Bestie... no.', passedLine: 'Your bestie is so proud of you.',
-    nagLines: ['Why are you still here? Go go go!', 'The timer is RIGHT there, babe.', 'I love you but MOVE.'],
-    lateLines: ['The group chat noticed. Drama +1', 'Running late again? Drama +1', 'Your bestie sent a voice note. Drama +1'],
-    bustedTitle: 'TOO MUCH DRAMA', bustedLine: 'Deleting the group chat. Try again tomorrow.', onFinish: () => showEnd(profile?.name),
+    nagLines: ['Why are you still here? Go go go!', 'Steal a car, babe. We are LATE.', 'I love you but MOVE.'],
+    lateLines: ['Running late again?'], tip: () => (isTouch ? 'Tip: tap E next to any car to steal it, hold BOOST for turbo' : 'Tip: press E next to any car to steal it, hold Shift for turbo'),
+    lateTitle: 'FASHIONABLY LATE', lateFailLine: 'The party started without you. Talk to Jess to try again.',
+    bustedTitle: 'TOO MUCH DRAMA', bustedLine: 'Try again tomorrow.', onFinish: (st) => showEnd(profile?.name, st),
   } });
   ticketMesh = makeTicketMesh();
   ticketMesh.position.set(226, 1.3, 104);
@@ -238,7 +239,7 @@ function initWorld() {
       const isMe = m.id === net.id;
       const c = isMe ? me : remotes.get(m.id)?.c;
       if (c) c.say(m.text);
-      hud.log(m.name, m.text, isMe ? '#29d3ff' : '#ff9ad5');
+      hud.log(m.name, m.text, isMe ? '#a7d3ea' : '#ff9ad5');
       if (!isMe) sfx.chat();
     },
   });
@@ -256,8 +257,8 @@ function removeRemote(id) {
 function startGame() {
   const first = !me;
   if (me) scene.remove(me.root);
-  me = new Character(profile.look, { name: profile.name, tagColor: '#29d3ff' });
-  me.setName(profile.name, null, '#29d3ff');
+  me = new Character(profile.look, { name: profile.name, tagColor: '#a7d3ea' });
+  me.setName(profile.name, null, '#a7d3ea');
   scene.add(me.root);
   player = { x: -10 + (Math.random() - 0.5) * 8, y: 0, z: -19 + (Math.random() - 0.5) * 4, vx: 0, vz: 0, vy: 0, heading: Math.PI, grounded: true, emote: 0, speed: 0 };
   cam.yaw = 0;
@@ -265,13 +266,13 @@ function startGame() {
   $('#hud').classList.remove('hidden');
   updateStats();
   if (first) {
-    hud.banner('WELCOME TO GIRLY CITY', `${BESTIE} needs you. Find her ✿`, '#ff8fc8', 4200);
+    hud.banner('WELCOME TO GIRLY CITY', `${BESTIE} needs you. Find her ✿`, '#f6bccb', 4200);
   }
 }
 
 function updateStats() {
   const rk = rankOf(progress.props);
-  if (lastRank && rk.rank > lastRank) { hud.banner('RANK UP', `Rank ${rk.rank}${UNLOCKS[rk.rank] ? ' · Unlocked ' + UNLOCKS[rk.rank] : ''}`, '#ffd23f', 4500); sfx.mission?.(); }
+  if (lastRank && rk.rank > lastRank) { hud.banner('RANK UP', `Rank ${rk.rank}${UNLOCKS[rk.rank] ? ' · Unlocked ' + UNLOCKS[rk.rank] : ''}`, '#ffd98a', 4500); sfx.mission?.(); }
   lastRank = rk.rank;
   hud.setStats({ rank: rk, props: progress.props, found: progress.swag.length, total: TOTAL, missionStarted: progress.missionStarted });
 }
@@ -282,7 +283,7 @@ function sendChat(text) {
   if (text === '/stuck') { if (driving) exitVehicle(); Object.assign(player, { x: -10, y: 0, z: -19, vx: 0, vy: 0, vz: 0 }); hud.toast('Back on the plaza', 1500); return; }
   if (neonChat) { neonChat.send(profile.name, text).then((ok) => { if (!ok && net.online) net.chat(text); }, () => net.online && net.chat(text)); challenge('chat'); }
   else if (net.online) { net.chat(text); challenge('chat'); }
-  else { me.say(text); hud.log(profile.name, text, '#29d3ff'); }
+  else { me.say(text); hud.log(profile.name, text, '#a7d3ea'); }
 }
 
 // ---------- input ----------
@@ -405,7 +406,7 @@ function addCash(n) {
 function makeTicketMesh() {
   const c = document.createElement('canvas'); c.width = 512; c.height = 256;
   const g = c.getContext('2d');
-  const gr = g.createLinearGradient(0, 0, 512, 256); gr.addColorStop(0, '#fff3b0'); gr.addColorStop(0.5, '#ffcf3f'); gr.addColorStop(1, '#d99a00');
+  const gr = g.createLinearGradient(0, 0, 512, 256); gr.addColorStop(0, '#fff3b0'); gr.addColorStop(0.5, '#ffd98a'); gr.addColorStop(1, '#d99a00');
   g.fillStyle = gr; g.fillRect(0, 0, 512, 256);
   g.strokeStyle = '#7a4d00'; g.lineWidth = 8; g.setLineDash([16, 10]); g.strokeRect(14, 14, 484, 228);
   g.fillStyle = '#5a3600'; g.textAlign = 'center';
@@ -433,7 +434,7 @@ function finishRace(id, R, ms) {
   const pb = !progress.best[id] || ms < progress.best[id];
   if (pb) progress.best[id] = ms;
   addCash(R.reward);
-  hud.banner('RACE COMPLETE', `${fmtTime(ms / 1000)}${pb ? ' · PERSONAL BEST' : ''} · +${R.reward} XP`, '#34D59A', 5000);
+  hud.banner('RACE COMPLETE', `${fmtTime(ms / 1000)}${pb ? ' · PERSONAL BEST' : ''} · +${R.reward} XP`, '#a9d3b9', 5000);
   sfx.mission?.();
   if (net.online) net.send({ t: 'score', race: id, ms });
 }
@@ -444,7 +445,7 @@ function onLand(airT) {
   if (airT >= 1.3 && driving?.kind === 'car') egg(1);
   if (airT < 0.7) return;
   const xp = Math.round(airT * 15) * 10;
-  hud.banner('STUNT JUMP', `${airT.toFixed(1)}s airtime · +${xp} XP`, '#ff4fa3', 2600);
+  hud.banner('STUNT JUMP', `${airT.toFixed(1)}s airtime · +${xp} XP`, '#f19bb0', 2600);
   addCash(xp);
 }
 
@@ -589,7 +590,7 @@ function collectSwag() {
       const found = progress.swag.length;
       if (found >= TOTAL) {
         progress.unlocked = true;
-        hud.banner('MISSION PASSED', 'Diamond Hoodie unlocked · +RESPECT', '#ffd23f', 5500);
+        hud.banner('MISSION PASSED', 'Diamond Hoodie unlocked · +RESPECT', '#ffd98a', 5500);
         sfx.mission();
         hud.log(null, 'Rebecca wants to see you. The Diamond Hoodie is now in the Neon wardrobe.');
       } else {
@@ -715,13 +716,13 @@ function updateRemotes(dt) {
 
 function blips() {
   const list = [...missions.blips()];
-  for (const r of remotes.values()) list.push({ x: r.x, z: r.z, color: '#29d3ff', shape: 'dot' });
+  for (const r of remotes.values()) list.push({ x: r.x, z: r.z, color: '#a7d3ea', shape: 'dot' });
   list.push(...races.blips());
   let near = null, nd = Infinity;
   for (const v of vehicles.list) {
     if (v.driver || v === driving) continue;
     const d = Math.hypot(v.x - player.x, v.z - player.z);
-    const b = { x: v.x, z: v.z, color: v.kind === 'car' ? CAR_TYPES[v.type].color : '#29d3ff', shape: v.kind, edge: false };
+    const b = { x: v.x, z: v.z, color: v.kind === 'car' ? CAR_TYPES[v.type].color : '#a7d3ea', shape: v.kind, edge: false };
     if (v.kind === 'car' && d < nd) { nd = d; near = b; }
     list.push(b);
   }

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export const NEON = '#ff8fc8';
+export const NEON = '#f6bccb';
 const cache = new Map();
 
 export function canvasTexture(key, w, h, draw) {
@@ -131,7 +131,7 @@ export function hawaiianTexture(color) {
       ctx.ellipse(x + 10, y + 6, 16, 6, r() * 3, 0, Math.PI * 2);
       ctx.fill();
     }
-    const petals = ['#ffffff', '#ff3d7f', '#ffd23f', '#ff7a3d'];
+    const petals = ['#ffffff', '#ff3d7f', '#ffd98a', '#ff7a3d'];
     for (let i = 0; i < 18; i++) {
       const x = r() * w, y = r() * h, s = 6 + r() * 6;
       ctx.fillStyle = petals[i % petals.length];
